@@ -1,6 +1,6 @@
 config = {
   'roomServer': 'ws://199.21.79.248:444/slither',
-  'mapServer': 'ws://dev1.b12.io:8000',
+  'mapServer': 'ws://websocket_server:8000',
   'color': 'red'
 }
 
