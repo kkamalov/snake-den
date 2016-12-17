@@ -1,8 +1,8 @@
 # snake-den
-Group play on [http://slither.io](slither.io)
+Group play on [slither.io](http://slither.io)
 
 
-Collude while playing [http://slither.io](slither.io) by joining the same room
+Collude while playing [slither.io](http://slither.io) by joining the same room
 and sharing a minimap.
 
 To enable, add a breakpoint which executes Javascript
