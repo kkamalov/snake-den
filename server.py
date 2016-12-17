@@ -5,7 +5,7 @@ clients = {}
 
 class SimpleEcho(WebSocket):
 
-    def _send_b12_message(self, data):
+    def _send_den_message(self, data):
         data['id'] = self.address
         for _, client in clients.items():
             client.sendMessage(json.dumps(data))
@@ -15,7 +15,7 @@ class SimpleEcho(WebSocket):
         print('{}-{}'.format(self.address, self.data))
         data = json.loads(self.data)
         data['event'] = 'position'
-        self._send_b12_message(data)
+        self._send_den_message(data)
 
     def handleConnected(self):
         clients[self.address] = self
@@ -25,7 +25,7 @@ class SimpleEcho(WebSocket):
         print(self.address, 'closed')
         del clients[self.address]
         data = {'event': 'delete'}
-        self._send_b12_message(data)
+        self._send_den_message(data)
 
 
 server = SimpleWebSocketServer('', 8000, SimpleEcho)

@@ -5,21 +5,21 @@ config = {
 }
 
 ws = new WebSocket(config.roomServer)
-if (typeof b12Socket !== 'undefined') {
-  b12Socket.close();
-  if (typeof b12Snakes !== 'undefined') {
-    for (var snakeId in b12Snakes) {
-      var b12Snake = b12Snakes[snakeId];
-      b12Snake.remove();
+if (typeof denSocket !== 'undefined') {
+  denSocket.close();
+  if (typeof denSnakes !== 'undefined') {
+    for (var snakeId in denSnakes) {
+      var denSnake = denSnakes[snakeId];
+      denSnake.remove();
     }
   }
 }
 
-b12Socket = new WebSocket(config.mapServer);
-b12Snakes = {}
+denSocket = new WebSocket(config.mapServer);
+denSnakes = {}
 
 updateLocation = function() {
-  b12Socket.send(JSON.stringify({
+  denSocket.send(JSON.stringify({
     top: myloc.style.top,
     left: myloc.style.left,
     color: config.color
@@ -28,21 +28,21 @@ updateLocation = function() {
 
 setInterval(updateLocation, 1000)
 
-b12Socket.onmessage = function(e) {
+denSocket.onmessage = function(e) {
   var data = JSON.parse(e.data);
   if (data.event === 'delete') {
-    var b12Loc = b12Snakes[data.id];
-    b12Loc.remove();
-    delete b12Snakes[data.id];
+    var denLoc = denSnakes[data.id];
+    denLoc.remove();
+    delete denSnakes[data.id];
     return;
   }
 
-  if (b12Snakes[data.id]) {
-    var b12Snake = b12Snakes[data.id];
-    b12Snake.style.top = data.top;
-    b12Snake.style.left = data.left;
+  if (denSnakes[data.id]) {
+    var denSnake = denSnakes[data.id];
+    denSnake.style.top = data.top;
+    denSnake.style.left = data.left;
   } else {
-    b12Loc = document.createElement("img");
+    denLoc = document.createElement("img");
     lc.width = lc.height = 14;
     ctx = lc.getContext("2d");
     ctx.fillStyle = data.color;
@@ -52,15 +52,15 @@ b12Socket.onmessage = function(e) {
     ctx.arc(7, 7, 2.5, 0, pi2);
     ctx.stroke();
     ctx.fill();
-    b12Loc.src = lc.toDataURL();
-    b12Loc.className = "nsi";
-    b12Loc.style.position = "absolute";
-    b12Loc.style.left = data.left;
-    b12Loc.style.top = data.top;
-    b12Loc.style.opacity = 1;
-    b12Loc.style.zIndex = 13;
-    b12Snakes[data.id] = b12Loc;
+    denLoc.src = lc.toDataURL();
+    denLoc.className = "nsi";
+    denLoc.style.position = "absolute";
+    denLoc.style.left = data.left;
+    denLoc.style.top = data.top;
+    denLoc.style.opacity = 1;
+    denLoc.style.zIndex = 13;
+    denSnakes[data.id] = denLoc;
     trf(myloc, agpu);
-    loch.appendChild(b12Loc);
+    loch.appendChild(denLoc);
   }
 }
