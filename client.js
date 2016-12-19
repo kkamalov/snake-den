@@ -5,6 +5,11 @@ config = {
   'name': 'blumua',
 };
 
+denSocket = null;
+denSnakes = null;
+denLbh = null;
+denLbs = null;
+
 denSetup = function() {
   ws = new WebSocket(config.roomServer);
 
@@ -12,8 +17,49 @@ denSetup = function() {
   denSocket = new WebSocket(config.mapServer);
   denSnakes = {};
 
+  // Setup socket
+  denSocket.onmessage = function(e) {
+    var data = JSON.parse(e.data);
+    if (data.event === 'delete') {
+      var denSnake = denSnakes[data.id];
+      denSnake.remove();
+      delete denSnakes[data.id];
+      return;
+    }
+    if (denSnakes[data.id]) {
+      var denSnake = denSnakes[data.id];
+      denSnake.style.top = data.top;
+      denSnake.style.left = data.left;
+      denSnake.score = Math.floor(15 * (fpsls[data.sct] + data.fam / fmlts[data.sct] - 1) - 5) / 1
+    } else {
+      denSnake = document.createElement("img");
+      lc.width = lc.height = 14;
+      ctx = lc.getContext("2d");
+      ctx.fillStyle = data.color;
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(7, 7, 2.5, 0, pi2);
+      ctx.stroke();
+      ctx.fill();
+      denSnake.src = lc.toDataURL();
+      denSnake.className = "nsi";
+      denSnake.style.position = "absolute";
+      denSnake.style.left = data.left;
+      denSnake.style.top = data.top;
+      denSnake.style.opacity = 1;
+      denSnake.style.zIndex = 13;
+      denSnake.name = data.name;
+      denSnake.color = data.color;
+      denSnakes[data.id] = denSnake;
+      trf(myloc, agpu);
+      loch.appendChild(denSnake);
+    }
+  }
+
+
   // Setup leaderboard.
-  var denLbh = document.createElement("div");
+  denLbh = document.createElement("div");
   denLbh.className = "nsi";
   denLbh.style.position = "fixed";
   denLbh.style.left = "4px";
@@ -35,7 +81,7 @@ denSetup = function() {
   trf(denLbh, agpu);
   document.body.appendChild(denLbh);
 
-  var denLbs = document.createElement("div");
+  denLbs = document.createElement("div");
   denLbs.className = "nsi";
   denLbs.style.position = "fixed";
   denLbs.style.textAlign = "center";
@@ -104,43 +150,5 @@ updateUi = function() {
   }
 }
 
-denSocket.onmessage = function(e) {
-  var data = JSON.parse(e.data);
-  if (data.event === 'delete') {
-    var denSnake = denSnakes[data.id];
-    denSnake.remove();
-    delete denSnakes[data.id];
-    return;
-  }
-  if (denSnakes[data.id]) {
-    var denSnake = denSnakes[data.id];
-    denSnake.style.top = data.top;
-    denSnake.style.left = data.left;
-    denSnake.score = Math.floor(15 * (fpsls[data.sct] + data.fam / fmlts[data.sct] - 1) - 5) / 1
-  } else {
-    denSnake = document.createElement("img");
-    lc.width = lc.height = 14;
-    ctx = lc.getContext("2d");
-    ctx.fillStyle = data.color;
-    ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(7, 7, 2.5, 0, pi2);
-    ctx.stroke();
-    ctx.fill();
-    denSnake.src = lc.toDataURL();
-    denSnake.className = "nsi";
-    denSnake.style.position = "absolute";
-    denSnake.style.left = data.left;
-    denSnake.style.top = data.top;
-    denSnake.style.opacity = 1;
-    denSnake.style.zIndex = 13;
-    denSnake.name = data.name;
-    denSnake.color = data.color;
-    denSnakes[data.id] = denSnake;
-    trf(myloc, agpu);
-    loch.appendChild(denSnake);
-  }
-}
 
 denPeriodic = denSetup();
