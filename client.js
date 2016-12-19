@@ -1,68 +1,61 @@
 config = {
   'roomServer': 'ws://199.21.79.248:444/slither',
   'mapServer': 'ws://websocket_server:8000',
-  'color': 'red',
-  'name': 'kainar'
+  'color': 'blue',
+  'name': 'blumua',
 }
 
+denSetup = function() {
+  ws = new WebSocket(config.roomServer)
 
-ws = new WebSocket(config.roomServer)
-if (typeof denSocket !== 'undefined') {
-  denSocket.close();
-  if (typeof denSnakes !== 'undefined') {
-    for (var snakeId in denSnakes) {
-      var denSnake = denSnakes[snakeId];
-      denSnake.remove();
-    }
-  }
+  // Setup init.
+  denSocket = new WebSocket(config.mapServer);
+  denSnakes = {}
+
+  // Setup leaderboard.
+  var denLbh = document.createElement("div");
+  denLbh.className = "nsi";
+  denLbh.style.position = "fixed";
+  denLbh.style.left = "4px";
+  denLbh.style.top = "4px";
+  denLbh.style.textAlign = "center";
+  denLbh.style.width = "255px";
+  denLbh.style.height = "28px";
+  denLbh.style.color = "#ffffff";
+  denLbh.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
+  denLbh.style.fontSize = "21px";
+  denLbh.style.fontWeight = "bold";
+  denLbh.style.overflow = "hidden";
+  denLbh.style.opacity = .7;
+  denLbh.style.zIndex = 7;
+  denLbh.style.cursor = "default";
+  var lstr = "Den Leaderboard";
+  "de" == lang ? lstr = "Bestenliste" : "fr" == lang ? lstr = "Gagnants" : "pt" == lang && (lstr = "L\u00edderes");
+  denLbh.textContent = lstr;
+  trf(denLbh, agpu);
+  document.body.appendChild(denLbh);
+
+  var denLbs = document.createElement("div");
+  denLbs.className = "nsi";
+  denLbs.style.position = "fixed";
+  denLbs.style.textAlign = "center";
+  denLbs.style.left = "20px";
+  denLbs.style.top = "32px";
+  denLbs.style.width = "150px";
+  denLbs.style.height = "800px";
+  denLbs.style.color = "#ffffff";
+  denLbs.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
+  denLbs.style.fontSize = "12px";
+  denLbs.style.overflow = "hidden";
+  denLbs.style.opacity = .7;
+  denLbs.style.zIndex = 7;
+  denLbs.style.cursor = "default";
+  denLbs.style.lineHeight = "150%";
+  trf(denLbs, agpu);
+  document.body.appendChild(denLbs);
+  // End Setup Leaderboard
+  return setInterval(updateUi, 1000)
 }
-
-// Setup init.
-denSocket = new WebSocket(config.mapServer);
-denSnakes = {}
-
-// Setup leaderboard.
-var denLbh = document.createElement("div");
-denLbh.className = "nsi";
-denLbh.style.position = "fixed";
-denLbh.style.left = "4px";
-denLbh.style.top = "4px";
-denLbh.style.textAlign = "center";
-denLbh.style.width = "255px";
-denLbh.style.height = "28px";
-denLbh.style.color = "#ffffff";
-denLbh.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
-denLbh.style.fontSize = "21px";
-denLbh.style.fontWeight = "bold";
-denLbh.style.overflow = "hidden";
-denLbh.style.opacity = .7;
-denLbh.style.zIndex = 7;
-denLbh.style.cursor = "default";
-var lstr = "Den Leaderboard";
-"de" == lang ? lstr = "Bestenliste" : "fr" == lang ? lstr = "Gagnants" : "pt" == lang && (lstr = "L\u00edderes");
-denLbh.textContent = lstr;
-trf(denLbh, agpu);
-document.body.appendChild(denLbh);
-
-var denLbs = document.createElement("div");
-denLbs.className = "nsi";
-denLbs.style.position = "fixed";
-denLbs.style.textAlign = "center";
-denLbs.style.left = "20px";
-denLbs.style.top = "32px";
-denLbs.style.width = "150px";
-denLbs.style.height = "800px";
-denLbs.style.color = "#ffffff";
-denLbs.style.fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
-denLbs.style.fontSize = "12px";
-denLbs.style.overflow = "hidden";
-denLbs.style.opacity = .7;
-denLbs.style.zIndex = 7;
-denLbs.style.cursor = "default";
-denLbs.style.lineHeight = "150%";
-trf(denLbs, agpu);
-document.body.appendChild(denLbs);
-// End Setup Leaderboard
 
 updateLocation = function() {
   denSocket.send(JSON.stringify({
@@ -80,17 +73,37 @@ updateLocation = function() {
 updateLeaderboard = function() {
   var scores = "";
   for (var denSnakeId in denSnakes) {
-    if (!denSnakes.hasOwnProperty(denSnakeId)) continue;
-
+    if (!denSnakes.hasOwnProperty(denSnakeId)) {
+      continue;
+    }
     var denSnake = denSnakes[denSnakeId];
-
     scores += '<span style="opacity:.7; color:' + denSnake.color + ';">' + denSnake.name + ': ' + denSnake.score + "</span><BR>";
   }
   denLbs.innerHTML = scores;
 }
 
-setInterval(updateLocation, 1000)
-setInterval(updateLeaderboard, 1000)
+denReset = function() {
+  denSocket && denSocket.close();
+  denSocket = null;
+  if (typeof denSnakes !== 'undefined') {
+    for (var snakeId in denSnakes) {
+      var denSnake = denSnakes[snakeId];
+      denSnake.remove();
+    }
+  }
+  denSnakes = {};
+}
+
+
+updateUi = function() {
+  if (!playing || !connected) {
+    denReset();
+    clearInterval(denPeriodic);
+  } else {
+    updateLocation();
+    updateLeaderboard();
+  }
+}
 
 denSocket.onmessage = function(e) {
   var data = JSON.parse(e.data);
@@ -100,7 +113,6 @@ denSocket.onmessage = function(e) {
     delete denSnakes[data.id];
     return;
   }
-
   if (denSnakes[data.id]) {
     var denSnake = denSnakes[data.id];
     denSnake.style.top = data.top;
@@ -131,3 +143,5 @@ denSocket.onmessage = function(e) {
     loch.appendChild(denSnake);
   }
 }
+
+denPeriodic = denSetup();
