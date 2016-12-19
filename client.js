@@ -67,10 +67,10 @@ updateLocation = function() {
     top: myloc.style.top,
     left: myloc.style.left,
     color: config.color,
-    name: config.name
+    name: config.name,
     // Internal score representation
     sct: snake.sct,
-    fam: snake.fam
+    fam: snake.fam,
   }))
 }
 
