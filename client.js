@@ -72,7 +72,7 @@ updateLocation = function() {
     name: config.name,
     // Internal score representation
     sct: snake.sct,
-    fam: snake.fam
+    fam: snake.fam,
   }))
 }
 
