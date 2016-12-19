@@ -5,6 +5,7 @@ config = {
   'name': 'kainar'
 }
 
+
 ws = new WebSocket(config.roomServer)
 if (typeof denSocket !== 'undefined') {
   denSocket.close();
@@ -42,6 +43,7 @@ var lstr = "Den Leaderboard";
 denLbh.textContent = lstr;
 trf(denLbh, agpu);
 document.body.appendChild(denLbh);
+
 var denLbs = document.createElement("div");
 denLbs.className = "nsi";
 denLbs.style.position = "fixed";
@@ -67,12 +69,13 @@ updateLocation = function() {
     top: myloc.style.top,
     left: myloc.style.left,
     color: config.color,
-    name: config.name
+    name: config.name,
     // Internal score representation
     sct: snake.sct,
     fam: snake.fam
   }))
 }
+
 
 updateLeaderboard = function() {
   var scores = "";
@@ -92,8 +95,8 @@ setInterval(updateLeaderboard, 1000)
 denSocket.onmessage = function(e) {
   var data = JSON.parse(e.data);
   if (data.event === 'delete') {
-    var denSnake = denSnakes[data.id];
-    denSnake.remove();
+    var denLoc = denSnakes[data.id];
+    denLoc.remove();
     delete denSnakes[data.id];
     return;
   }
@@ -104,7 +107,7 @@ denSocket.onmessage = function(e) {
     denSnake.style.left = data.left;
     denSnake.score = Math.floor(15 * (fpsls[data.sct] + data.fam / fmlts[data.sct] - 1) - 5) / 1
   } else {
-    denSnake = document.createElement("img");
+    denLoc = document.createElement("img");
     lc.width = lc.height = 14;
     ctx = lc.getContext("2d");
     ctx.fillStyle = data.color;
@@ -114,17 +117,17 @@ denSocket.onmessage = function(e) {
     ctx.arc(7, 7, 2.5, 0, pi2);
     ctx.stroke();
     ctx.fill();
-    denSnake.src = lc.toDataURL();
-    denSnake.className = "nsi";
-    denSnake.style.position = "absolute";
-    denSnake.style.left = data.left;
-    denSnake.style.top = data.top;
-    denSnake.style.opacity = 1;
-    denSnake.style.zIndex = 13;
-    denSnake.name = data.name
-    denSnake.color = data.color
-    denSnakes[data.id] = denSnake;
+    denLoc.src = lc.toDataURL();
+    denLoc.className = "nsi";
+    denLoc.style.position = "absolute";
+    denLoc.style.left = data.left;
+    denLoc.style.top = data.top;
+    denLoc.style.opacity = 1;
+    denLoc.style.zIndex = 13;
+    denLoc.name = data.name;
+    denLoc.color = data.color;
+    denSnakes[data.id] = denLoc;
     trf(myloc, agpu);
-    loch.appendChild(denSnake);
+    loch.appendChild(denLoc);
   }
 }
