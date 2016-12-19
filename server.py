@@ -3,6 +3,7 @@ from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 
 clients = {}
 
+
 class SimpleEcho(WebSocket):
 
     def _send_den_message(self, data):
@@ -27,6 +28,6 @@ class SimpleEcho(WebSocket):
         data = {'event': 'delete'}
         self._send_den_message(data)
 
-
-server = SimpleWebSocketServer('', 8000, SimpleEcho)
-server.serveforever()
+if __name__ == '__main__':
+    server = SimpleWebSocketServer('', 8000, SimpleEcho)
+    server.serveforever()

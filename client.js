@@ -3,14 +3,14 @@ config = {
   'mapServer': 'ws://websocket_server:8000',
   'color': 'blue',
   'name': 'blumua',
-}
+};
 
 denSetup = function() {
-  ws = new WebSocket(config.roomServer)
+  ws = new WebSocket(config.roomServer);
 
   // Setup init.
   denSocket = new WebSocket(config.mapServer);
-  denSnakes = {}
+  denSnakes = {};
 
   // Setup leaderboard.
   var denLbh = document.createElement("div");
@@ -53,8 +53,7 @@ denSetup = function() {
   denLbs.style.lineHeight = "150%";
   trf(denLbs, agpu);
   document.body.appendChild(denLbs);
-  // End Setup Leaderboard
-  return setInterval(updateUi, 1000)
+  return setInterval(updateUi, 1000);
 }
 
 updateLocation = function() {
@@ -66,7 +65,7 @@ updateLocation = function() {
     // Internal score representation
     sct: snake.sct,
     fam: snake.fam,
-  }))
+  }));
 }
 
 
