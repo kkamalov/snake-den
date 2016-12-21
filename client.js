@@ -1,9 +1,9 @@
 config = {
   'roomServer': 'ws://199.21.79.248:444/slither',
   'mapServer': 'ws://websocket_server:8000',
-  'color': 'blue',
-  'name': 'blumua',
-};
+  'color': 'red',
+  'name': 'kainar'
+}
 
 denSocket = null;
 denSnakes = null;
@@ -51,14 +51,12 @@ denSetup = function() {
       denSnake.style.zIndex = 13;
       denSnake.name = data.name;
       denSnake.color = data.color;
-      denSnake.score = 0;
+        denSnake.score = 0;
       denSnakes[data.id] = denSnake;
       trf(myloc, agpu);
       loch.appendChild(denSnake);
     }
   }
-
-
   // Setup leaderboard.
   denLbh = document.createElement("div");
   denLbh.className = "nsi";
@@ -115,7 +113,6 @@ updateLocation = function() {
   }));
 }
 
-
 updateLeaderboard = function() {
   var scores = "";
   var sortedSnakes = [];
@@ -133,8 +130,9 @@ updateLeaderboard = function() {
 
   for (var idx in sortedSnakes) {
     var denSnake = sortedSnakes[idx][0];
-    var rank = '# ' + (idx + 1) + '    ';
-    scores += '<span style="opacity:.7; color:' + rank + denSnake.color + ';">'  + denSnake.name + ': ' + denSnake.score + "</span><BR>";
+    var rank = 1 + parseFloat(idx);
+    var rankText = '# ' + rank + '    ';
+    scores += '<span style="opacity:.7; color:'+  denSnake.color + ';">' + rankText + denSnake.name + ': ' + denSnake.score + "</span><BR>";
   }
   denLbs.innerHTML = scores;
 }
@@ -152,7 +150,6 @@ denReset = function() {
   }
   denSnakes = {};
 }
-
 
 updateUi = function() {
   if (!connected) {
