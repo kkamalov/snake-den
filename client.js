@@ -51,6 +51,7 @@ denSetup = function() {
       denSnake.style.zIndex = 13;
       denSnake.name = data.name;
       denSnake.color = data.color;
+      denSnake.score = 0;
       denSnakes[data.id] = denSnake;
       trf(myloc, agpu);
       loch.appendChild(denSnake);
@@ -130,6 +131,8 @@ updateLeaderboard = function() {
 denReset = function() {
   denSocket && denSocket.close();
   denSocket = null;
+  denLbh.remove();
+  denLbs.remove();
   if (typeof denSnakes !== 'undefined') {
     for (var snakeId in denSnakes) {
       var denSnake = denSnakes[snakeId];
@@ -141,7 +144,7 @@ denReset = function() {
 
 
 updateUi = function() {
-  if (!playing || !connected) {
+  if (!connected) {
     denReset();
     clearInterval(denPeriodic);
   } else {
