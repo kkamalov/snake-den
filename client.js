@@ -118,12 +118,23 @@ updateLocation = function() {
 
 updateLeaderboard = function() {
   var scores = "";
+  var sortedSnakes = [];
+
   for (var denSnakeId in denSnakes) {
     if (!denSnakes.hasOwnProperty(denSnakeId)) {
       continue;
     }
     var denSnake = denSnakes[denSnakeId];
-    scores += '<span style="opacity:.7; color:' + denSnake.color + ';">' + denSnake.name + ': ' + denSnake.score + "</span><BR>";
+    sortedSnakes.push([denSnake, denSnake.score]);
+  }
+  sortedSnakes.sort(function(a, b) {
+    return b[1] - a[1]
+  })
+
+  for (var idx in sortedSnakes) {
+    var denSnake = sortedSnakes[idx][0];
+    var rank = '# ' + (idx + 1) + '    ';
+    scores += '<span style="opacity:.7; color:' + rank + denSnake.color + ';">'  + denSnake.name + ': ' + denSnake.score + "</span><BR>";
   }
   denLbs.innerHTML = scores;
 }
