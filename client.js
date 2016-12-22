@@ -14,14 +14,14 @@ denReset = null;
 denReset = function() {
   denSocket && denSocket.close();
   denSocket = null;
+  denLbh = document.getElementById("leaderboardTag");
+  denLbs = document.getElementById("leaderboardScores");
   if (denLbh) denLbh.remove();
   if (denLbs) denLbs.remove();
 
-  if (denSnakes) {
-    for (var snakeId in denSnakes) {
-      var denSnake = denSnakes[snakeId];
-      denSnake.remove();
-    }
+  var oldSnakes = document.getElementsByClassName("denSnake");
+  for (var i=0; i < oldSnakes.length; i++) {
+    oldSnakes[i].remove();
   }
   denSnakes = {};
 }
@@ -60,7 +60,8 @@ denSetup = function() {
       ctx.stroke();
       ctx.fill();
       denSnake.src = lc.toDataURL();
-      denSnake.className = "nsi";
+        denSnake.classList.add("nsi");
+        denSnake.classList.add("denSnake");
       denSnake.style.position = "absolute";
       denSnake.style.left = data.left;
       denSnake.style.top = data.top;
@@ -75,8 +76,10 @@ denSetup = function() {
     }
   }
   // Setup leaderboard.
+
   denLbh = document.createElement("div");
   denLbh.className = "nsi";
+  denLbh.setAttribute('id', 'leaderboardTag');
   denLbh.style.position = "fixed";
   denLbh.style.left = "4px";
   denLbh.style.top = "4px";
@@ -97,8 +100,10 @@ denSetup = function() {
   trf(denLbh, agpu);
   document.body.appendChild(denLbh);
 
+
   denLbs = document.createElement("div");
   denLbs.className = "nsi";
+  denLbs.setAttribute('id', 'leaderboardScores');
   denLbs.style.position = "fixed";
   denLbs.style.textAlign = "center";
   denLbs.style.left = "20px";
