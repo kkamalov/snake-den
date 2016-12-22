@@ -23,16 +23,19 @@ the instructions below.
 1. View the source of the file `game144000.js` and add a breakpoint to the line
    shown in the screenshot. Searching for `ws://` will bring you to the right
    place.
+   
 ![script name.png][script-name]
 ![edit source.png][edit-source]
 2. Edit the breakpoint and copy the source from `client.js` in this repository.
    Don't forget to change the `config` variable appropriately.
+   
 ![edit breakpoint][edit-breakpoint]
 ![insert code][insert-code]
 3. Setup the breakpoint to `Evaluate Javascript` and `Automatically continue
    after evaluating`.
-![action][action]
-![options][options]
+   
+![breakpoint action][breakpoint-action]
+![breakpoint options][breakpoint-options]
 
 ## Authors
 
@@ -44,13 +47,14 @@ the instructions below.
 + [jblum18@gmail.com](mailto:jblum18@gmail.com)
 + [@blumua](https://twitter.com/blumua)
 
-We hacked on this while at work. Come work with us
+We largely hacked on this while at work. Come work with us
 [@b12](https://b12.io/about/#/Team).
 
 [shared-minimap]: https://github.com/kkamalov/snake-den/raw/master/screenshots/shared-minimap.png "Shared Minimap"
 [shared-leaderboard]: https://github.com/kkamalov/snake-den/raw/master/screenshots/shared-leaderboard.png "Shared Leaderboard"
 [script-name]: https://github.com/kkamalov/snake-den/raw/master/screenshots/script-name.png "Script Name"
 [edit-source]: https://github.com/kkamalov/snake-den/raw/master/screenshots/edit-source.png "Edit Source"
+[edit-breakpoint]: https://github.com/kkamalov/snake-den/raw/master/screenshots/edit-breakpoint.png "Edit Breakpoint"
 [insert-code]: https://github.com/kkamalov/snake-den/raw/master/screenshots/insert-code.png "Insert Code"
-[action]: https://github.com/kkamalov/snake-den/raw/master/screenshots/action.png "Breakpoint Action"
-[options]: https://github.com/kkamalov/snake-den/raw/master/screenshots/options.png "Breakpoint Options"
+[breakpoint-action]: https://github.com/kkamalov/snake-den/raw/master/screenshots/action.png "Breakpoint Action"
+[breakpoint-options]: https://github.com/kkamalov/snake-den/raw/master/screenshots/options.png "Breakpoint Options"
