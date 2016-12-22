@@ -4,8 +4,8 @@ Multiplayer [slither.io](http://slither.io).
 Collude with friends while playing [slither.io](http://slither.io) by joining
 the same room and sharing a minimap/scoreboard.
 
-![shared minimap][shared-minimap]
 ![shared leaderboard][shared-leaderboard]
+![shared minimap][shared-minimap]
 
 Begin by starting the websocket server to share the minimap with your friends
 while you are in the same room. You can start the server with the following
@@ -23,17 +23,17 @@ the instructions below.
 1. View the source of the file `game144000.js` and add a breakpoint to the line
    shown in the screenshot. Searching for `ws://` will bring you to the right
    place.
-   
+
 ![script name.png][script-name]
 ![edit source.png][edit-source]
 2. Edit the breakpoint and copy the source from `client.js` in this repository.
    Don't forget to change the `config` variable appropriately.
-   
+
 ![edit breakpoint][edit-breakpoint]
 ![insert code][insert-code]
 3. Setup the breakpoint to `Evaluate Javascript` and `Automatically continue
    after evaluating`.
-   
+
 ![breakpoint action][breakpoint-action]
 ![breakpoint options][breakpoint-options]
 
