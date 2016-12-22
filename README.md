@@ -23,7 +23,7 @@ make run
 ```
 
 ## Client Setup
-Once running one person is running the server, you need to add some javascript
+Once one person is running the server, you need to add some javascript
 to modify the gameplay. Add a breakpoint which executes Javascript (Safari
 browser does this well) following the instructions below.
 
@@ -44,6 +44,8 @@ browser does this well) following the instructions below.
 
 ![breakpoint action][breakpoint-action]
 ![breakpoint options][breakpoint-options]
+
+Have fun slithering together!
 
 ## Authors
 
