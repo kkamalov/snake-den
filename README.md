@@ -23,9 +23,9 @@ make run
 ```
 
 ## Client Setup
-Once one person is running the server, you need to add some javascript
-to modify the gameplay. Add a breakpoint which executes Javascript (Safari
-browser does this well) following the instructions below.
+Once one person is running the server, you need to add some javascript to
+modify the gameplay. Add a breakpoint which executes Javascript (Safari browser
+does this well) following the instructions below.
 
 1. View the source of the file `game144000.js` and add a breakpoint to the line
    shown in the screenshot. Searching for `ws://` will bring you to the right
