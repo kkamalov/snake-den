@@ -9,8 +9,25 @@ denSocket = null;
 denSnakes = null;
 denLbh = null;
 denLbs = null;
+denReset = null;
+
+denReset = function() {
+  denSocket && denSocket.close();
+  denSocket = null;
+  if (denLbh) denLbh.remove();
+  if (denLbs) denLbs.remove();
+
+  if (denSnakes) {
+    for (var snakeId in denSnakes) {
+      var denSnake = denSnakes[snakeId];
+      denSnake.remove();
+    }
+  }
+  denSnakes = {};
+}
 
 denSetup = function() {
+  denReset();
   ws = new WebSocket(config.roomServer);
 
   // Setup init.
@@ -116,6 +133,7 @@ updateLocation = function() {
 updateLeaderboard = function() {
   var scores = "";
   var sortedSnakes = [];
+  denLbs.innerHTML = '';
 
   for (var denSnakeId in denSnakes) {
     if (!denSnakes.hasOwnProperty(denSnakeId)) {
@@ -135,20 +153,6 @@ updateLeaderboard = function() {
     scores += '<span style="opacity:.7; color:'+  denSnake.color + ';">' + rankText + denSnake.name + ': ' + denSnake.score + "</span><BR>";
   }
   denLbs.innerHTML = scores;
-}
-
-denReset = function() {
-  denSocket && denSocket.close();
-  denSocket = null;
-  denLbh.remove();
-  denLbs.remove();
-  if (typeof denSnakes !== 'undefined') {
-    for (var snakeId in denSnakes) {
-      var denSnake = denSnakes[snakeId];
-      denSnake.remove();
-    }
-  }
-  denSnakes = {};
 }
 
 updateUi = function() {
