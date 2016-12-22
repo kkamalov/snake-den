@@ -1,8 +1,8 @@
 config = {
-  'roomServer': 'ws://199.21.79.248:444/slither',
-  'mapServer': 'ws://websocket_server:8000',
-  'color': 'red',
-  'name': 'kainar'
+  'roomServer': 'ws://199.21.79.248:444/slither', // Set this to your preferred room.
+  'mapServer': 'ws://websocket_server:8000', // Set this to the location of the running web server
+  'color': 'red', // Each player should choose a color.
+  'name': 'kainar' // Each player should put their username.
 }
 
 denSocket = null;
